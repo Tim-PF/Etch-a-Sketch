@@ -2,7 +2,7 @@ body {
     background-color: #FEFE00;
     height: 100vh;
     display:flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
 }
 
@@ -12,28 +12,73 @@ body {
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
-    background-color: #868686;
-    width: 70%;
-    height: 85%;
+    background-color: #FF003C;
+    width: 900px;
+    height: 800px;
     border-radius: 20px;
-    box-shadow: 10px 10px 5px black;
+    box-shadow: 10px 10px 5px #171646;
+    margin-left: -300px;
+    
 }
 
 
 .sketch-container {
     display:flex;
+    flex-shrink: 0;
     flex-wrap: wrap;
     background-color: antiquewhite;
     width:600px;
     height:600px;
+}
 
 .small-grid {
     flex-basis: 6.25%;
-    border: 1px solid black;
+    border-top: 1px solid rgb(156, 156, 156);
+    border-left: 1px solid rgb(156, 156, 156);
     box-sizing: border-box;
     background-color: white;
-    
+    margin:0;
+    padding:0;
+       
+}
 
 
+.controls {
     
+    display:flex;
+    
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: #9B1F7C;
+    width: 400px;
+    height: 800px;
+    border-radius: 20px;
+    box-shadow: 10px 10px 5px #B8FFF3;
+    
+}
+
+
+.slider-container {
+    display: flex;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#slider {
+
+    width: 100%;
+}
+
+.slider-value {
+    width: 30px;
+    height: 30px;
+    background-color: #007bff;
+    border-radius: 50%;
+    color: white;
+    text-align: center;
+    line-height: 30px;
+    margin-left: 10px;
 }
