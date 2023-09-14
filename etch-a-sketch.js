@@ -7,7 +7,7 @@ let flexBasisCalculator = 100 / gridSize;
 
 let darken = false;
 let lighten = false;
-
+let rainbow = false;
 
 const mainContainer = document.querySelector(".sketch-container");
 for(let i= 0; i<grid; i++) {
@@ -53,6 +53,11 @@ containers.forEach(container => {
       const adjustedRGB  = adjustBrightnessRGB(backgroundColorComputed , 0.1);
       container.style.backgroundColor = adjustedRGB;
       
+   }
+   else if (rainbow == true) {
+      let rainbowRGB = adjustBrightness();
+      console.log(rainbowRGB);
+      container.style.backgroundColor = rainbowRGB;
    }
    else {
     let newColor = colorpicker(); 
@@ -104,20 +109,16 @@ eraseButton.addEventListener("click", () => {
 
 
 
-function adjustBrightness(hex , factor) {
-   if (factor > 1) factor = 1;
-   if (factor < -1) factor = -1;
-
-   hex = hex.replace(/^#/, "");
+function adjustBrightness() {
+  randomNumberGenerator();
 
 
-   const r = parseint(hex.substring(0, 2), 16);
-   const g = parseint(hex.substring(2, 4), 16);
-   const b = parseint(hex.substring(4, 6), 16);
+  
 
-   const adjustedR = Math.round(r + (factor * 255));
-   const adjustedG = Math.round(g + (factor * 255));
-   const adjustedB = Math.round(b + (factor * 255));
+
+   const adjustedR = randomNumberGenerator()
+   const adjustedG = randomNumberGenerator()
+   const adjustedB = randomNumberGenerator()
 
 
    const clamp = value => Math.min(255, Math.max(0, value));
@@ -134,11 +135,13 @@ function adjustBrightness(hex , factor) {
 
 const lightenButton = document.querySelector('#lighten');
 const darkenButton = document.querySelector('#darken');
+const rainbowButton = document.querySelector('#rainbow-button')
 
 darkenButton.addEventListener("click", () => {
-   if (lighten == true) {
-      lighten = false;
-      lightenButton.classList.remove('activeButton')
+   if (lighten || rainbow == true) {
+      lighten, rainbow = false;
+      lightenButton.classList.remove('activeButton');
+      rainbowButton.classList.remove('activeButton');
     }
    darken = !darken;
    darkenColor();
@@ -146,12 +149,23 @@ darkenButton.addEventListener("click", () => {
 
 
 lightenButton.addEventListener("click", () => {
-   if (darken == true) {
-      darken = false;
-      darkenButton.classList.remove('activeButton')
+   if (darken || rainbow == true) {
+      darken, rainbow = false;
+      darkenButton.classList.remove('activeButton');
+      rainbowButton.classList.remove('activeButton');
     }
    lighten = !lighten;
    lightenColor();
+})
+
+rainbowButton.addEventListener("click", () => {
+   if (darken || lighten == true) {
+      darken, lighten = false;
+      darkenButton.classList.remove('activeButton');
+      lightenButton.classList.remove('activeButton');
+    }
+   rainbow = !rainbow;
+   rainbowColor();
 })
 
 
@@ -197,6 +211,16 @@ function lightenColor() {
    }
 };
 
+function rainbowColor() {
+   if (rainbow == true) {
+      rainbowButton.classList.add('activeButton')
+   }
+   else {
+      rainbowButton.classList.remove('activeButton')
+   }
+};
+
+
 
 function adjustBrightnessRGB(rgb, factor) {
    // Parse the RGB components
@@ -227,4 +251,10 @@ function adjustBrightnessRGB(rgb, factor) {
 
    // Construct the adjusted RGB color string
    return `rgb(${r}, ${g}, ${b})`;
+}
+
+
+function randomNumberGenerator() {
+   const randomNumber = Math.floor(Math.random() * 256);
+   return randomNumber;
 }
