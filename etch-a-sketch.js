@@ -4,6 +4,11 @@ let gridSize = 10;
 grid = gridSize * gridSize;
 let flexBasisCalculator = 100 / gridSize;
 
+
+let darken = false;
+let lighten = false;
+
+
 const mainContainer = document.querySelector(".sketch-container");
 for(let i= 0; i<grid; i++) {
    
@@ -34,9 +39,25 @@ let containers = document.querySelectorAll('.small-grid');
 // Iterate through each container and add the event listener
 containers.forEach(container => {
   container.addEventListener('mouseover', () => {
+   let newcolor = 0;
+   if (darken == true) {
+      const computedStyle = getComputedStyle(container);
+      const backgroundColorComputed = computedStyle.backgroundColor;
+      const adjustedRGB  = adjustBrightnessRGB(backgroundColorComputed , -0.1);
+      container.style.backgroundColor = adjustedRGB;
+      
+   }
+   else if (lighten == true) {
+      const computedStyle = getComputedStyle(container);
+      const backgroundColorComputed = computedStyle.backgroundColor;
+      const adjustedRGB  = adjustBrightnessRGB(backgroundColorComputed , 0.1);
+      container.style.backgroundColor = adjustedRGB;
+      
+   }
+   else {
     let newColor = colorpicker(); 
     container.style.backgroundColor = newColor; // Change the background color of the element
-  })
+ } })
 });
 
 }
@@ -111,3 +132,99 @@ function adjustBrightness(hex , factor) {
 }
 
 
+const lightenButton = document.querySelector('#lighten');
+const darkenButton = document.querySelector('#darken');
+
+darkenButton.addEventListener("click", () => {
+   if (lighten == true) {
+      lighten = false;
+      lightenButton.classList.remove('activeButton')
+    }
+   darken = !darken;
+   darkenColor();
+})
+
+
+lightenButton.addEventListener("click", () => {
+   if (darken == true) {
+      darken = false;
+      darkenButton.classList.remove('activeButton')
+    }
+   lighten = !lighten;
+   lightenColor();
+})
+
+
+if (darken == true) {
+   darkenButton.classList.add('activeButton')
+   containers = document.querySelectorAll('small-grid');
+   containers.forEach(container => {
+      container.addEventListener('mouseover', () => {
+         let colorDarken = container.style.backgroundColor ;
+         console.log(colorDarken)
+        let newDarkenColor = adjustBrightness(colorDarken , -0.1);
+         container.style.backgroundColor = newDarkenColor;
+      })
+   })
+
+}
+
+function darkenColor() {
+   if (darken == true) {
+      darkenButton.classList.add('activeButton')
+      containers = document.querySelectorAll('small-grid');
+      containers.forEach(container => {
+         container.addEventListener('mouseover', () => {
+            let colorDarken = container.style.backgroundColor ;
+            console.log(colorDarken)
+           let newDarkenColor = adjustBrightness(colorDarken , -0.1);
+            container.style.backgroundColor = newDarkenColor;
+         })
+      })
+   }
+   else {
+      darkenButton.classList.remove('activeButton')
+   }
+};
+
+
+function lightenColor() {
+   if (lighten == true) {
+      lightenButton.classList.add('activeButton')
+   }
+   else {
+      lightenButton.classList.remove('activeButton')
+   }
+};
+
+
+function adjustBrightnessRGB(rgb, factor) {
+   // Parse the RGB components
+   const match = rgb.match(/(\d+),\s*(\d+),\s*(\d+)/);
+   
+   if (!match) {
+       // Invalid RGB format, return null or handle the error
+       return null;
+   }
+
+   // Extract the RGB components
+   let [r, g, b] = match.slice(1).map(Number);
+
+   // Ensure the factor is within the valid range (-1 to 1)
+   if (factor > 1) factor = 1;
+   if (factor < -1) factor = -1;
+
+   // Adjust the RGB values
+   r = Math.round(r + (factor * 255));
+   g = Math.round(g + (factor * 255));
+   b = Math.round(b + (factor * 255));
+
+   // Clamp the values to the valid range (0 to 255)
+   const clamp = value => Math.min(255, Math.max(0, value));
+   r = clamp(r);
+   g = clamp(g);
+   b = clamp(b);
+
+   // Construct the adjusted RGB color string
+   return `rgb(${r}, ${g}, ${b})`;
+}

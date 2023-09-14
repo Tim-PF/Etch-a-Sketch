@@ -36,7 +36,7 @@ body {
     border-top: 1px solid rgb(156, 156, 156);
     border-left: 1px solid rgb(156, 156, 156);
     box-sizing: border-box;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     margin:0;
     padding:0;
        
@@ -93,4 +93,8 @@ button {
     font-size: 20px;
     padding: 10px 15px;
     margin: 20px;
+}
+
+.activeButton {
+    background-color: green;
 }
