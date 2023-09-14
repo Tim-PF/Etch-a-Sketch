@@ -22,8 +22,21 @@ slider.addEventListener("input", () => {
    updateGrid();
 });
 
+// Assuming you have a colorpicker function defined somewhere
+colorValue();
+// Get all elements with the class "small-grid"
+function colorValue() {
+let containers = document.querySelectorAll('.small-grid');
 
+// Iterate through each container and add the event listener
+containers.forEach(container => {
+  container.addEventListener('mouseover', () => {
+    let newColor = colorpicker(); 
+    container.style.backgroundColor = newColor; // Change the background color of the element
+  })
+});
 
+}
 function updateGrid() {
    gridSize = slider.value;
    grid = gridSize * gridSize;
@@ -42,5 +55,12 @@ function updateGrid() {
        const flexBasisValue = `${flexBasisCalculator}%`;
        container.style.flexBasis = flexBasisValue;
        mainContainer.appendChild(container);
+       container.addEventListener('mouseover', colorValue);
    }
+}
+
+function colorpicker() {
+   const colorPicker = document.querySelector('#colorpicker');
+   let colorValue = colorPicker.value;
+   return colorValue;
 }
