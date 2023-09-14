@@ -1,3 +1,5 @@
+//Initial GridSize 
+
 let gridSize = 10;
 grid = gridSize * gridSize;
 let flexBasisCalculator = 100 / gridSize;
@@ -13,6 +15,7 @@ for(let i= 0; i<grid; i++) {
 
 }
 
+//Slider changes Grid Size
 const slider = document.querySelector('#slider');
 const sliderValue = document.querySelector('#sliderValue')
 sliderValue.textContent = `${slider.value} x ${slider.value} `;
@@ -22,9 +25,9 @@ slider.addEventListener("input", () => {
    updateGrid();
 });
 
-// Assuming you have a colorpicker function defined somewhere
+//lock a color to paint the grid by giving background-colorto each div
 colorValue();
-// Get all elements with the class "small-grid"
+
 function colorValue() {
 let containers = document.querySelectorAll('.small-grid');
 
@@ -37,6 +40,8 @@ containers.forEach(container => {
 });
 
 }
+
+//After Grid resize makes coloring againn possible
 function updateGrid() {
    gridSize = slider.value;
    grid = gridSize * gridSize;
@@ -58,9 +63,21 @@ function updateGrid() {
        container.addEventListener('mouseover', colorValue);
    }
 }
-
+//Returns the color user want to paint with
 function colorpicker() {
    const colorPicker = document.querySelector('#colorpicker');
    let colorValue = colorPicker.value;
    return colorValue;
 }
+
+// Erase button
+
+const eraseButton = document.querySelector('#eraseButton');
+eraseButton.addEventListener("click", () => {
+   console.log("clicked");
+   const containers = document.querySelectorAll(".small-grid");
+   containers.forEach(container => {
+   container.style.backgroundColor = "white";
+});
+});
+
