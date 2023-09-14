@@ -81,3 +81,33 @@ eraseButton.addEventListener("click", () => {
 });
 });
 
+
+
+function adjustBrightness(hex , factor) {
+   if (factor > 1) factor = 1;
+   if (factor < -1) factor = -1;
+
+   hex = hex.replace(/^#/, "");
+
+
+   const r = parseint(hex.substring(0, 2), 16);
+   const g = parseint(hex.substring(2, 4), 16);
+   const b = parseint(hex.substring(4, 6), 16);
+
+   const adjustedR = Math.round(r + (factor * 255));
+   const adjustedG = Math.round(g + (factor * 255));
+   const adjustedB = Math.round(b + (factor * 255));
+
+
+   const clamp = value => Math.min(255, Math.max(0, value));
+
+   const adjustedHex =
+   '#' +
+   clamp(adjustedR).toString(16).padStart(2, '0') +
+   clamp(adjustedG).toString(16).padStart(2, '0') +
+   clamp(adjustedB).toString(16).padStart(2, '0');
+
+   return adjustedHex;
+}
+
+
